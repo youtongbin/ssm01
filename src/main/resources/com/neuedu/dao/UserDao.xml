@@ -6,8 +6,11 @@
     <select id="getLists" resultType="User">
         select * from user
     </select>
-    <select id="getOne" resultType="User">
+    <select id="getOneById" resultType="User">
         select * from user where id=#{id}
+    </select>
+    <select id="getOneByName" resultType="User">
+        select * from user where username=#{username}
     </select>
     <insert id="insert">
         insert into user

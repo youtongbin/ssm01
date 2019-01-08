@@ -28,5 +28,15 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.do"/>
+            <mvc:exclude-mapping path="/login.do"/>
+            <mvc:exclude-mapping path="/doLogin.do"/>
+            <bean class="com.neuedu.web.TestMethod"/>
+        </mvc:interceptor>
+
+    </mvc:interceptors>
+
 
 </beans>

@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -61,6 +65,60 @@ public class WebTest {
     public String delete(ModelMap map,Integer id){
         userService.delete(id);
         return "redirect:list.do";
+    }
+
+    @RequestMapping("/login.do")
+    public String login(){
+        return "login";
+    }
+
+    @RequestMapping("/doLogin.do")
+    public String doLogin(HttpServletRequest req,HttpServletResponse resp){
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String save = req.getParameter("save");
+        User u = userService.getOne(username);
+
+        if (!username.matches("[ ]*") && !password.matches("[ ]*")){
+            if (u != null){
+                if (password.equals(u.getPassword())){
+                    Cookie cookie1 = new Cookie("username",username);
+                    Cookie cookie2 = new Cookie("password",password);
+
+                    cookie1.setMaxAge(60*60*24*7);
+                    resp.addCookie(cookie1);
+                    if (save.equals("Save")){
+                        cookie2.setMaxAge(60*60*24*7);
+                        resp.addCookie(cookie2);
+                    }else if (save.equals("noSave")){
+                        cookie2.setMaxAge(0);
+                        resp.addCookie(cookie2);
+                    }
+
+                    HttpSession session = req.getSession();
+                    session.setAttribute("user",u);
+                    session.setMaxInactiveInterval(60*30);
+
+                    return "redirect:list.do";
+                }else {
+                    //密码错误
+                }
+
+            }else {
+                //没有该用户
+            }
+        }else {
+            //用户名、密码输入为空
+        }
+
+        return "login";
+    }
+
+    @RequestMapping("/exit.do")
+    public String exit(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        session.invalidate();
+        return "login";
     }
 
 }

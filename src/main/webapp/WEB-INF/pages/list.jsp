@@ -39,5 +39,7 @@
         </tbody>
     </table>
 
+    <a href="exit.do"><button>退出</button></a>
+
 </body>
 </html>
