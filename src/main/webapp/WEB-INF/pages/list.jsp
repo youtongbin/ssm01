@@ -39,6 +39,13 @@
         </tbody>
     </table>
 
+    <hr/>
+
+    <form action="doUpload.do" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit" name="submit">上传</button>
+    </form>
+
     <a href="exit.do"><button>退出</button></a>
 
 </body>

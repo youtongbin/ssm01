@@ -2,15 +2,20 @@ package com.neuedu.web;
 
 import com.neuedu.pojo.User;
 import com.neuedu.service.IUserService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -119,6 +124,24 @@ public class WebTest {
         HttpSession session = req.getSession();
         session.invalidate();
         return "login";
+    }
+
+    @RequestMapping("/doUpload.do")
+    public String doUpload(@RequestParam("file") MultipartFile[] files){
+
+        for (MultipartFile f:files
+             ) {
+            if (!f.isEmpty()){
+                String filename = f.getOriginalFilename();
+                try {
+                    FileUtils.copyInputStreamToFile(f.getInputStream(),new File("C:\\gitHub\\ssm01\\src\\main\\webapp\\files\\img\\" + filename));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return "redirect:list.do";
     }
 
 }
