@@ -1,5 +1,7 @@
 package com.neuedu.web;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.neuedu.pojo.User;
 import com.neuedu.service.IUserService;
 import org.apache.commons.io.FileUtils;
@@ -29,9 +31,16 @@ public class WebTest {
     }
 
     @RequestMapping("/list.do")
-    public String list(ModelMap map){
+    public String list(ModelMap map,HttpServletRequest req){
+        int pageNum = req.getParameter("pageNum") == null ? 1 : Integer.parseInt(req.getParameter("pageNum"));
+        int pageSize = 2;
+        PageHelper.startPage(pageNum,pageSize);
         List<User> users = userService.getLists();
+        PageInfo<User> page = new PageInfo<>(users,3);
+
+
         map.put("users",users);
+        map.put("page",page);
         return "list";
     }
 
@@ -102,13 +111,13 @@ public class WebTest {
 
                     HttpSession session = req.getSession();
                     session.setAttribute("user",u);
+                    session.setAttribute("save",save);
                     session.setMaxInactiveInterval(60*30);
 
                     return "redirect:list.do";
                 }else {
                     //密码错误
                 }
-
             }else {
                 //没有该用户
             }
@@ -123,7 +132,7 @@ public class WebTest {
     public String exit(HttpServletRequest req){
         HttpSession session = req.getSession();
         session.invalidate();
-        return "login";
+        return "redirect:login.do";
     }
 
     @RequestMapping("/doUpload.do")

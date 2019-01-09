@@ -10,6 +10,17 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        ul{
+            list-style: none;
+        }
+        li{
+            float: left;
+        }
+        li button{
+            height: 25px;
+        }
+    </style>
 </head>
 <body>
     <a href="insert.do"><button>添加</button></a><br>
@@ -39,6 +50,48 @@
         </tbody>
     </table>
 
+    <ul>
+        <c:choose>
+            <c:when test="${page.pages > 0}">
+                <c:choose>
+                    <c:when test="${page.isFirstPage}">
+                        <li><button disabled="disabled">首页</button></li>
+                        <li><button disabled="disabled">上一页</button></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="list.do?pageNum=1"><button>首页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.prePage}"><button>上一页</button></a></li>
+                    </c:otherwise>
+                </c:choose>
+
+                <c:forEach items="${page.navigatepageNums}" var="i">
+                    <c:choose>
+                        <c:when test="${page.pageNum == i}">
+                            <li><button disabled="disabled">${i}</button></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="list.do?pageNum=${i}"><button>${i}</button></a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+
+                <c:choose>
+                    <c:when test="${page.isLastPage}">
+                        <li><button disabled="disabled">下一页</button></li>
+                        <li><button disabled="disabled">尾页</button></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="list.do?pageNum=${page.nextPage}"><button>下一页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.pages}"><button>尾页</button></a></li>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+        </c:choose>
+
+    </ul>
+
+    <br/>
     <hr/>
 
     <form action="doUpload.do" method="post" enctype="multipart/form-data">

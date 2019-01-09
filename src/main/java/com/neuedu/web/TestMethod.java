@@ -22,11 +22,19 @@ public class TestMethod implements HandlerInterceptor {
             Map<String,Cookie> map = CookieUtil.getCookie(cookies);
             Cookie cookie1 = map.get("username");
             Cookie cookie2 = map.get("password");
-            if (user.getUsername().equals(cookie1.getValue()) && user.getPassword().equals(cookie2.getValue())){
-                return true;
+
+            if (cookie2 != null){
+                //若保存了密码
+                if (user.getUsername().equals(cookie1.getValue()) && user.getPassword().equals(cookie2.getValue())){
+                    return true;
+                }
             }else {
-                httpServletResponse.sendRedirect("login.do");
+                //没保存密码时，仅根据用户名判断
+                if (user.getUsername().equals(cookie1.getValue())){
+                    return true;
+                }
             }
+            httpServletResponse.sendRedirect("login.do");
         }else {
             httpServletResponse.sendRedirect("login.do");
         }
