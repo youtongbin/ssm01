@@ -5,7 +5,7 @@ import com.neuedu.pojo.User;
 import java.util.List;
 
 public interface IUserService {
-    List<User> getLists();
+    List<User> getLists(User user);
     User getOne(Integer id);
     User getOne(String username);
     int insert(User user);

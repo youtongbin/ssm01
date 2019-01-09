@@ -13,8 +13,8 @@ public class UserServiceImpl implements IUserService {
     @Resource
     private UserDao userDao;
     @Override
-    public List<User> getLists() {
-        return userDao.getLists();
+    public List<User> getLists(User user) {
+        return userDao.getLists(user);
     }
 
     @Override

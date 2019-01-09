@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.neuedu.pojo.User;
 import com.neuedu.service.IUserService;
+import com.neuedu.util.CookieUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class WebTest {
@@ -31,14 +33,14 @@ public class WebTest {
     }
 
     @RequestMapping("/list.do")
-    public String list(ModelMap map,HttpServletRequest req){
+    public String list(ModelMap map,HttpServletRequest req,User user){
         int pageNum = req.getParameter("pageNum") == null ? 1 : Integer.parseInt(req.getParameter("pageNum"));
         int pageSize = 2;
         PageHelper.startPage(pageNum,pageSize);
-        List<User> users = userService.getLists();
+        List<User> users = userService.getLists(user);
         PageInfo<User> page = new PageInfo<>(users,3);
 
-
+        map.put("user",user);
         map.put("users",users);
         map.put("page",page);
         return "list";
@@ -82,7 +84,18 @@ public class WebTest {
     }
 
     @RequestMapping("/login.do")
-    public String login(){
+    public String login(HttpServletRequest req,ModelMap map){
+        Cookie[] cookies = req.getCookies();
+        Map<String,Cookie> cookieMap = CookieUtil.getCookie(cookies);
+        Cookie usernameCoo = cookieMap.get("username");
+        Cookie passwordCoo = cookieMap.get("password");
+        if (usernameCoo != null){
+            map.put("username",usernameCoo.getValue());
+        }
+        if (passwordCoo != null){
+            map.put("password",passwordCoo.getValue());
+        }
+
         return "login";
     }
 

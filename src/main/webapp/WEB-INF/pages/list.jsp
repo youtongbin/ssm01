@@ -25,6 +25,11 @@
 <body>
     <a href="insert.do"><button>添加</button></a><br>
 
+    <form method="get">
+        <input type="text" name="username" value="${user.username}">
+        <input type="submit" value="搜索">
+    </form>
+
     <table>
         <thead>
         <tr>
@@ -50,6 +55,7 @@
         </tbody>
     </table>
 
+
     <ul>
         <c:choose>
             <c:when test="${page.pages > 0}">
@@ -59,8 +65,8 @@
                         <li><button disabled="disabled">上一页</button></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="list.do?pageNum=1"><button>首页</button></a></li>
-                        <li><a href="list.do?pageNum=${page.prePage}"><button>上一页</button></a></li>
+                        <li><a href="list.do?pageNum=1&username=${user.username}"><button>首页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.prePage}&username=${user.username}"><button>上一页</button></a></li>
                     </c:otherwise>
                 </c:choose>
 
@@ -70,11 +76,10 @@
                             <li><button disabled="disabled">${i}</button></li>
                         </c:when>
                         <c:otherwise>
-                            <li><a href="list.do?pageNum=${i}"><button>${i}</button></a></li>
+                            <li><a href="list.do?pageNum=${i}&username=${user.username}"><button>${i}</button></a></li>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
-
 
                 <c:choose>
                     <c:when test="${page.isLastPage}">
@@ -82,14 +87,15 @@
                         <li><button disabled="disabled">尾页</button></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="list.do?pageNum=${page.nextPage}"><button>下一页</button></a></li>
-                        <li><a href="list.do?pageNum=${page.pages}"><button>尾页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.nextPage}&username=${user.username}"><button>下一页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.pages}&username=${user.username}"><button>尾页</button></a></li>
                     </c:otherwise>
                 </c:choose>
             </c:when>
         </c:choose>
 
     </ul>
+
 
     <br/>
     <hr/>

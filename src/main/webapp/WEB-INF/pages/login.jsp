@@ -9,11 +9,11 @@
         <table>
             <tr>
                 <td>用户名：</td>
-                <td><input type="text" name="username" value=""></td>
+                <td><input type="text" name="username" value="${username}"></td>
             </tr>
             <tr>
                 <td>密码：</td>
-                <td><input type="password" name="password" value=""></td>
+                <td><input type="password" name="password" value="${password}"></td>
             </tr>
         </table>
         <label><input type="radio" name="save" value="Save" checked="checked">保存密码</label>
