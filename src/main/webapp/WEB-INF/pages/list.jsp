@@ -65,8 +65,8 @@
                         <li><button disabled="disabled">上一页</button></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="list.do?pageNum=1&username=${user.username}"><button>首页</button></a></li>
-                        <li><a href="list.do?pageNum=${page.prePage}&username=${user.username}"><button>上一页</button></a></li>
+                        <li><a href="list.do?pageNum=1${username}"><button>首页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.prePage}${username}"><button>上一页</button></a></li>
                     </c:otherwise>
                 </c:choose>
 
@@ -76,7 +76,7 @@
                             <li><button disabled="disabled">${i}</button></li>
                         </c:when>
                         <c:otherwise>
-                            <li><a href="list.do?pageNum=${i}&username=${user.username}"><button>${i}</button></a></li>
+                            <li><a href="list.do?pageNum=${i}${username}"><button>${i}</button></a></li>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
@@ -87,8 +87,8 @@
                         <li><button disabled="disabled">尾页</button></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="list.do?pageNum=${page.nextPage}&username=${user.username}"><button>下一页</button></a></li>
-                        <li><a href="list.do?pageNum=${page.pages}&username=${user.username}"><button>尾页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.nextPage}${username}"><button>下一页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.pages}&userna${username}"><button>尾页</button></a></li>
                     </c:otherwise>
                 </c:choose>
             </c:when>

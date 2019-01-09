@@ -40,7 +40,10 @@ public class WebTest {
         List<User> users = userService.getLists(user);
         PageInfo<User> page = new PageInfo<>(users,3);
 
-        map.put("user",user);
+        String username = user.getUsername();
+        if (username != null){
+            map.put("username","&username=" + username);
+        }
         map.put("users",users);
         map.put("page",page);
         return "list";
