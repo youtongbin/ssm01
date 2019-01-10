@@ -88,7 +88,7 @@
                     </c:when>
                     <c:otherwise>
                         <li><a href="list.do?pageNum=${page.nextPage}${username}"><button>下一页</button></a></li>
-                        <li><a href="list.do?pageNum=${page.pages}&userna${username}"><button>尾页</button></a></li>
+                        <li><a href="list.do?pageNum=${page.pages}${username}"><button>尾页</button></a></li>
                     </c:otherwise>
                 </c:choose>
             </c:when>

@@ -6,6 +6,7 @@ import com.neuedu.pojo.User;
 import com.neuedu.service.IUserService;
 import com.neuedu.util.CookieUtil;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,13 +38,17 @@ public class WebTest {
         int pageNum = req.getParameter("pageNum") == null ? 1 : Integer.parseInt(req.getParameter("pageNum"));
         int pageSize = 2;
         PageHelper.startPage(pageNum,pageSize);
-        List<User> users = userService.getLists(user);
-        PageInfo<User> page = new PageInfo<>(users,3);
+        List<User> users = null;
 
         String username = user.getUsername();
-        if (username != null){
+        if (StringUtils.isBlank(username)){
+            user.setUsername(null);
+            users = userService.getLists(user);
+        }else {
+            users = userService.getLists(user);
             map.put("username","&username=" + username);
         }
+        PageInfo<User> page = new PageInfo<>(users,3);
         map.put("users",users);
         map.put("page",page);
         return "list";
