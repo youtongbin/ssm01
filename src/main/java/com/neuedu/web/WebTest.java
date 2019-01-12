@@ -1,5 +1,7 @@
 package com.neuedu.web;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.neuedu.pojo.User;
@@ -10,8 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
@@ -172,6 +173,64 @@ public class WebTest {
         }
 
         return "redirect:list.do";
+    }
+
+    @RequestMapping("/register.do")
+    public String register(){
+        return "register";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/doRegisterCheck.do",method = RequestMethod.POST)
+    private String doRegisterCheck(@RequestBody String jsonStr){
+        JSONObject jsonObj = JSONObject.parseObject(jsonStr);
+        String username = (String) jsonObj.get("username");
+        String password = (String) jsonObj.get("password");
+        String passwords = (String) jsonObj.get("passwords");
+        String tele = (String) jsonObj.get("tele");
+
+        System.out.println(new StringBuffer().append(username).append(" " + password).append(" " + passwords).append(" " + tele));
+
+        User user = userService.getOne(username);
+        if (!username.matches("[ ]*")){
+            if (user == null){
+                if (!password.matches("[ ]*")){
+                    if (password.equals(passwords)){
+                        //验证通过
+                        System.out.println("验证通过");
+//                        userService.insert(new User(username,password,tele));
+                        return "success";
+                    }else {
+                        //密码验证失败
+                        System.out.println("密码验证失败");
+                        return "passwordFail";
+                    }
+                }else {
+                    //密码输入为空
+                    System.out.println("密码输入为空");
+                    return "passwordIsNull";
+                }
+            }else {
+                //用戶名已存在
+                System.out.println("用戶名已存在");
+                return "userExists";
+            }
+        }else {
+            //用户名输入为空
+            System.out.println("用户名输入为空");
+            return "usernameIsNull";
+        }
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/doRegister.do",method = RequestMethod.POST)
+    public String doRegister(@RequestBody String jsonStr){
+        JSONObject jsonObj = JSONObject.parseObject(jsonStr);
+
+        userService.insert(new User((String) jsonObj.get("username"),(String) jsonObj.get("password"),(String) jsonObj.get("tele")));
+        return "success";
+
     }
 
 }

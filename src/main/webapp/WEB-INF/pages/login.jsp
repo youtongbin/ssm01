@@ -19,6 +19,7 @@
         <label><input type="radio" name="save" value="Save" checked="checked">保存密码</label>
         <label><input type="radio" name="save" value="noSave">取消保存</label><br>
         <button type="submit" name="submit">登录</button>
+        <a href="register.do"><button type="button">注册</button></a>
     </form>
 
 </body>

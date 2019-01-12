@@ -103,8 +103,8 @@
       <version>1.0.29</version>
     </dependency>
 
-    <!--文件上传->
-    <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+    <!--文件上传
+    https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
@@ -118,13 +118,21 @@
       <version>4.4.6</version>
     </dependency>
 
-    <!--分页-->
-    <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+    <!--分页
+    https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
       <version>5.1.2</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.47</version>
+    </dependency>
+
 
   </dependencies>
 
